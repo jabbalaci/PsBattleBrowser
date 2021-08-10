@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>PsBattle Browser</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    table {
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    table td {
+      vertical-align: top;
+    }
+
+    h1 {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <p>
+  <h1>{{ battle.title|remove_psbattle }}</h1>
+  </p>
+  <p>
+    {% set link = battle.url_without_json() -%}
+    <b>Link: </b><a href="{{ link }}">{{ link }}</a>
+  </p>
+  <p><b>Number of images: </b>{{ battle.comments|length }}</p>
+  <table border="1">
+    <tr>
+      <th>Original image</th>
+      <th>Shopped image</th>
+    </tr>
+    {% for entry in battle.comments %}
+    <tr>
+      <td width="50%"><img src="{{ battle.original_image_url }}" style="max-height:100%; max-width:100%"></td>
+      <td width="50%">
+        (score: {{ entry.score }}) {{ entry.body_text }} [<a href="{{ entry.image_url }}">image link</a>]<br>
+        <img src="{{ entry.image_url }}" style="max-height:100%; max-width:100%">
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+</body>
+
+</html>

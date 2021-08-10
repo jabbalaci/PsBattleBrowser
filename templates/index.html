@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PsBattle Browser</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <p>
+        <!-- <a href="{{ url_for('fn_index') }}">HOME</a> -->
+        <a href="{{ url_for('fn_index') }}">
+            <img src="{{ url_for('static', filename='psbattle_logo.png') }}" alt="reload" title="reload" width="150"
+                style="border: 1px solid black;">
+        </a>
+    </p>
+    <p>
+        {% set link = index.url_without_json() -%}
+        <b>Subreddit link: </b><a href="{{ link }}">{{ link }}</a>
+    </p>
+
+    <ol>
+        {% for entry in index.entries %}
+        <li>
+            <a href="{{ url_for('fn_entry', permalink=entry.data.permalink ) }}">
+                <img src="{{ entry.data.thumbnail }}" width="75">
+            </a>
+            (score: {{ entry.data.score }}) <a href="{{ url_for('fn_entry', permalink=entry.data.permalink ) }}">{{
+                entry.data.title|remove_psbattle }}</a>
+        </li>
+        {% endfor %}
+    </ol>
+
+    <p>
+        <!--
+        {% if index.before %}
+        <a href="{{ url_for('fn_index', after=index.before) }}">&lt;&lt; Prev 25</a>
+        {% else %}
+        &lt;&lt; Prev 25
+        {% endif %}
+        |
+        -->
+        <a href="{{ url_for('fn_index', after=index.after) }}">Next Page &gt;&gt;</a>
+    </p>
+
+</body>
+
+</html>
